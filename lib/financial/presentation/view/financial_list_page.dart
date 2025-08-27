@@ -7,28 +7,29 @@ import 'package:stocks_cryto/financial/presentation/view/widgets/financial_infor
 import 'package:stocks_cryto/financial/presentation/view/widgets/financial_shimmer.dart';
 
 class FinancialListPage extends StatefulWidget {
-  const FinancialListPage({super.key});
+  final FinancialCubit? cubit;
+  const FinancialListPage({this.cubit, super.key});
 
   @override
   State<FinancialListPage> createState() => _FinancialListPageState();
 }
 
 class _FinancialListPageState extends State<FinancialListPage> {
-  final cubit = Modular.get<FinancialCubit>();
+  late final FinancialCubit cubit;
 
   @override
   void initState() {
-    cubit.listStocks();
     super.initState();
+    cubit = widget.cubit ?? Modular.get<FinancialCubit>();
+    cubit.listStocks();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: BlocConsumer<FinancialCubit, CubitState>(
+      body: BlocBuilder<FinancialCubit, CubitState>(
         bloc: cubit,
-        listener: (context, state) {},
         builder: (context, state) {
           if (state is LoadingCubitState) {
             return FinancialShimmer();
