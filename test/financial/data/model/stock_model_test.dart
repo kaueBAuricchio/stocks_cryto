@@ -5,14 +5,17 @@ void main() {
   group('StockModel', () {
     test('fromJson should create instance correctly', () {
       // arrange
-      final json = {'trading_symbol': 'AAPL', 'registrant_name': 'Apple Inc'};
+      final json = {
+        'trading_symbol': 'A',
+        'registrant_name': 'AGILENT TECHNOLOGIES, INC.',
+      };
 
       // act
       final model = StockModel.fromJson(json);
 
       // assert
-      expect(model.symbol, 'AAPL');
-      expect(model.name, 'Apple Inc');
+      expect(model.symbol, 'A');
+      expect(model.name, 'AGILENT TECHNOLOGIES, INC.');
     });
 
     test('fromJson should assign default values ​​when fields are missing', () {
@@ -30,8 +33,11 @@ void main() {
     test('fromListMap should convert list of maps to list of StockModel', () {
       // arrange
       final jsonList = [
-        {'trading_symbol': 'GOOG', 'registrant_name': 'Google'},
-        {'trading_symbol': 'MSFT', 'registrant_name': 'Microsoft'},
+        {
+          'trading_symbol': 'A',
+          'registrant_name': 'AGILENT TECHNOLOGIES, INC.',
+        },
+        {'trading_symbol': 'AA', 'registrant_name': 'Alcoa Corp'},
       ];
 
       // act
@@ -40,14 +46,20 @@ void main() {
       // assert
       expect(models, isA<List<StockModel>>());
       expect(models.length, 2);
-      expect(models[0].symbol, 'GOOG');
-      expect(models[1].name, 'Microsoft');
+      expect(models[0].symbol, 'A');
+      expect(models[1].name, 'Alcoa Corp');
     });
 
     test('equal StockModels should be considered equivalent', () {
       // arrange
-      const stock1 = StockModel(symbol: 'TSLA', name: 'Tesla');
-      const stock2 = StockModel(symbol: 'TSLA', name: 'Tesla');
+      const stock1 = StockModel(
+        symbol: 'A',
+        name: 'AGILENT TECHNOLOGIES, INC.',
+      );
+      const stock2 = StockModel(
+        symbol: 'A',
+        name: 'AGILENT TECHNOLOGIES, INC.',
+      );
 
       // assert
       expect(stock1, equals(stock2));

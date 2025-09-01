@@ -4,11 +4,11 @@ import 'package:stocks_cryto/financial/domain/entity/stock_entity.dart';
 import 'package:stocks_cryto/financial/presentation/view/widgets/financial_information_component.dart';
 
 void main() {
-  testWidgets('FinancialInformationComponent exibe symbol e name', (
+  testWidgets('FinancialInformationComponent displays symbol and name', (
     WidgetTester tester,
   ) async {
     // Arrange
-    const stock = StockEntity(symbol: 'AAPL', name: 'Apple Inc');
+    const stock = StockEntity(symbol: 'AA', name: 'Alcoa Corp');
 
     // Act
     await tester.pumpWidget(
@@ -18,13 +18,11 @@ void main() {
     );
 
     // Assert
-    expect(find.text('AAPL'), findsOneWidget);
-    expect(find.text('Apple Inc'), findsOneWidget);
+    expect(find.text('AA'), findsOneWidget);
+    expect(find.text('Alcoa Corp'), findsOneWidget);
 
-    // Verifica se o Card existe
     expect(find.byType(Card), findsOneWidget);
 
-    // Verifica se o Divider existe
     expect(find.byType(Divider), findsOneWidget);
   });
 }

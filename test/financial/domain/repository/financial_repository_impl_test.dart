@@ -22,8 +22,8 @@ void main() {
     test('should return Right when datasource returns success', () async {
       // Arrange
       final models = [
-        const StockModel(symbol: 'AAPL', name: 'Apple Inc'),
-        const StockModel(symbol: 'GOOG', name: 'Google'),
+        const StockModel(symbol: 'A', name: 'AGILENT TECHNOLOGIES, INC.'),
+        const StockModel(symbol: 'AA', name: 'Alcoa Corp'),
       ];
 
       when(() => mockDatasource.listStock()).thenAnswer((_) async => models);
@@ -36,7 +36,7 @@ void main() {
       result.fold((_) => fail('Not should fail'), (entities) {
         expect(entities, isA<List<StockEntity>>());
         expect(entities.length, 2);
-        expect(entities.first.symbol, 'AAPL');
+        expect(entities.first.symbol, 'A');
       });
     });
 

@@ -7,15 +7,14 @@ void main() {
   group('StockModelMapper', () {
     test('toEntity must convert StockModel to StockEntity', () {
       // arrange
-      const model = StockModel(symbol: 'AAPL', name: 'Apple Inc');
-
+      const model = StockModel(symbol: 'A', name: 'AGILENT TECHNOLOGIES, INC.');
       // act
       final entity = model.toEntity();
 
       // assert
       expect(entity, isA<StockEntity>());
-      expect(entity.symbol, 'AAPL');
-      expect(entity.name, 'Apple Inc');
+      expect(entity.symbol, 'A');
+      expect(entity.name, 'AGILENT TECHNOLOGIES, INC.');
     });
 
     test(
@@ -23,8 +22,8 @@ void main() {
       () {
         // arrange
         const models = [
-          StockModel(symbol: 'GOOG', name: 'Google'),
-          StockModel(symbol: 'MSFT', name: 'Microsoft'),
+          StockModel(symbol: 'A', name: 'AGILENT TECHNOLOGIES, INC.'),
+          StockModel(symbol: 'AA', name: 'Alcoa Corp'),
         ];
 
         // act
@@ -33,8 +32,8 @@ void main() {
         // assert
         expect(entities, isA<List<StockEntity>>());
         expect(entities.length, 2);
-        expect(entities[0].symbol, 'GOOG');
-        expect(entities[1].name, 'Microsoft');
+        expect(entities[0].symbol, 'A');
+        expect(entities[1].name, 'Alcoa Corp');
       },
     );
   });

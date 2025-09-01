@@ -24,7 +24,7 @@ void main() {
     return MaterialApp(home: FinancialListPage(cubit: mockCubit));
   }
 
-  testWidgets('exibe shimmer quando estado é LoadingCubitState', (
+  testWidgets('displays shimmer when state is LoadingCubitState', (
     tester,
   ) async {
     when(() => mockCubit.listStocks()).thenAnswer((_) async {});
@@ -40,10 +40,10 @@ void main() {
     expect(find.byType(FinancialShimmer), findsOneWidget);
   });
 
-  testWidgets('exibe lista quando estado é SuccessCubitState', (tester) async {
+  testWidgets('display list when state is SuccessCubitState', (tester) async {
     final stocks = [
-      const StockEntity(symbol: 'AAPL', name: 'Apple Inc'),
-      const StockEntity(symbol: 'GOOG', name: 'Google'),
+      const StockEntity(symbol: 'A', name: 'AGILENT TECHNOLOGIES, INC.'),
+      const StockEntity(symbol: 'AA', name: 'Alcoa Corp'),
     ];
 
     when(() => mockCubit.listStocks()).thenAnswer((_) async {});
@@ -57,23 +57,23 @@ void main() {
     await tester.pump();
 
     expect(find.byType(FinancialInformationComponent), findsNWidgets(2));
-    expect(find.text('Apple Inc'), findsOneWidget);
-    expect(find.text('Google'), findsOneWidget);
+    expect(find.text('AGILENT TECHNOLOGIES, INC.'), findsOneWidget);
+    expect(find.text('Alcoa Corp'), findsOneWidget);
   });
 
-  testWidgets('exibe mensagem de erro quando estado é ErrorCubitState', (
+  testWidgets('display error message when state is ErrorCubitState', (
     tester,
   ) async {
     when(() => mockCubit.listStocks()).thenAnswer((_) async {});
     whenListen(
       mockCubit,
-      Stream.value(ErrorCubitState(message: 'Erro ao carregar')),
-      initialState: ErrorCubitState(message: 'Erro ao carregar'),
+      Stream.value(ErrorCubitState(message: 'Error loading')),
+      initialState: ErrorCubitState(message: 'Error loading'),
     );
 
     await tester.pumpWidget(createWidgetUnderTest());
     await tester.pump();
 
-    expect(find.text('Erro ao carregar'), findsOneWidget);
+    expect(find.text('Error loading'), findsOneWidget);
   });
 }

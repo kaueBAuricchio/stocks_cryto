@@ -22,8 +22,8 @@ void main() {
     test('should return Right when datasource returns success', () async {
       // Arrange
       final models = [
-        const StockModel(symbol: 'AAPL', name: 'Apple Inc'),
-        const StockModel(symbol: 'GOOG', name: 'Google'),
+        const StockModel(symbol: 'A', name: 'AGILENT TECHNOLOGIES, INC.'),
+        const StockModel(symbol: 'AA', name: 'Alcoa Corp'),
       ];
 
       when(() => mockDatasource.listStock()).thenAnswer((_) async => models);
@@ -33,10 +33,10 @@ void main() {
 
       // Assert
       expect(result.isRight(), true);
-      result.fold((_) => fail('Não deveria falhar'), (entities) {
+      result.fold((_) => fail('Shouldnt fail'), (entities) {
         expect(entities, isA<List<StockEntity>>());
         expect(entities.length, 2);
-        expect(entities.first.symbol, 'AAPL');
+        expect(entities.first.symbol, 'A');
       });
 
       // Verifica se o datasource foi chamado 1x
@@ -54,7 +54,7 @@ void main() {
       expect(result.isLeft(), true);
       result.fold(
         (failure) => expect(failure, isA<DataPostFailure>()),
-        (_) => fail('Deveria falhar'),
+        (_) => fail('Should fail'),
       );
 
       verify(() => mockDatasource.listStock()).called(1);
@@ -66,7 +66,7 @@ void main() {
         // Arrange
         when(
           () => mockDatasource.listStock(),
-        ).thenThrow(Exception('Erro genérico'));
+        ).thenThrow(Exception('Generic error'));
 
         // Act
         final result = await repository.listStock();
@@ -75,7 +75,7 @@ void main() {
         expect(result.isLeft(), true);
         result.fold(
           (failure) => expect(failure, isA<ServerFailure>()),
-          (_) => fail('Deveria falhar'),
+          (_) => fail('Should fail'),
         );
 
         verify(() => mockDatasource.listStock()).called(1);
